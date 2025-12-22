@@ -1,9 +1,4 @@
-import { useState, useReducer, createContext } from "react";
-import useFetch from "../hooks/useFetch";
-import { getAllProduct } from "../http";
-
-// storing the fetched product:
-const { fetchedData: DUMMY_PRODUCTS } = useFetch(getAllProduct);
+import { useReducer, createContext } from "react";
 
 // creating the context provider():
 export const Context = createContext({
@@ -15,65 +10,46 @@ export const Context = createContext({
 
 // shopping cart reducer function, will be called by dispatch():
 function shoppingCartReducer(state, action) {
-  if (action.type == "ADD_ITEM") {
-    const updatedItems = [...state.items]; // we set 'all items' at this variable
-
-    const existingCartItemIndex = updatedItems.findIndex(
-      // check if item exist
-      (cartItem) => cartItem.id === action.payload
+  if (action.type === "ADD_ITEM") {
+    const existingItem = state.items.find(
+      item => item.id === action.payload
     );
-    const existingCartItem = updatedItems[existingCartItemIndex]; // save the desired item
 
-    if (existingCartItem) {
-      const updatedItem = {
-        ...existingCartItem,
-        quantity: existingCartItem.quantity + 1, // plus quantity by 1, for desired item
-      };
-      updatedItems[existingCartItemIndex] = updatedItem; // update our array.
-    } else {
-      const product = DUMMY_PRODUCTS.find(
-        (product) => product.id === action.payload
+    let updatedItems;
+
+    if (existingItem) {
+      updatedItems = state.items.map(item =>
+        item.id === action.payload
+          ? { ...item, quantity: item.quantity + 1 }
+          : item
       );
-      updatedItems.push({
-        id: action.payload,
-        name: product.title,
-        price: product.price,
-        quantity: 1,
-      });
-    }
-
-    // set our local state with: items user add/update:
-    return {
-      ...state,
-      items: updatedItems,
-    };
-  }
-
-  if (action.type == "UPDATE_ITEM") {
-    const updatedItems = [...state.items];
-    const updatedItemIndex = updatedItems.findIndex(
-      (item) => item.id === action.payload
-    );
-
-    const updatedItem = {
-      ...updatedItems[updatedItemIndex],
-    };
-
-    updatedItem.quantity += action.amount;
-
-    if (updatedItem.quantity <= 0) {
-      updatedItems.splice(updatedItemIndex, 1);
+      console.log("in if of add")
     } else {
-      updatedItems[updatedItemIndex] = updatedItem;
+      updatedItems = [
+        ...state.items,
+        { id: action.payload, quantity: 1 }
+      ];
+      console.log("in else of add")
     }
 
-    // set our local state with: items user add/update:
-    return {
-      ...state,
-      items: updatedItems,
-    };
+    return { ...state, items: updatedItems };
   }
+
+  if (action.type === "UPDATE_ITEM") {
+    const updatedItems = state.items
+      .map(item =>
+        item.id === action.payload
+          ? { ...item, quantity: item.quantity + action.amount }
+          : item
+      )
+      .filter(item => item.quantity > 0);
+
+    return { ...state, items: updatedItems };
+  }
+
+  return state;
 }
+
 
 // adding the ContextProvider Component:
 export function ContextProvider({ children }) {
@@ -83,8 +59,6 @@ export function ContextProvider({ children }) {
     { items: [] }
   );
 
-  // adding the state
-  const [shoppingCart, setShoppingCart] = useState({ items: [] });
 
   // handle add items function: deal with dispatch()
   function handleAddItemToCart(id) {
@@ -95,10 +69,11 @@ export function ContextProvider({ children }) {
   }
 
   // handle update items function: deal with dispatch()
-  function handleAddItemToCart(id) {
+  function handleUpdateCartItemQuantity(productId, amount) {
     shoppingCartDispatch({
       type: "UPDATE_ITEM",
-      payload: id,
+      amount: amount,
+      payload: productId,
     });
   }
 
