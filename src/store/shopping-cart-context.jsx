@@ -23,13 +23,11 @@ function shoppingCartReducer(state, action) {
           ? { ...item, quantity: item.quantity + 1 }
           : item
       );
-      console.log("in if of add")
     } else {
       updatedItems = [
         ...state.items,
         { id: action.payload, quantity: 1 }
       ];
-      console.log("in else of add")
     }
 
     return { ...state, items: updatedItems };
@@ -86,4 +84,3 @@ export function ContextProvider({ children }) {
 
   return <Context.Provider value={ctxValue}>{children}</Context.Provider>;
 }
-

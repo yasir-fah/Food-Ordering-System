@@ -35,12 +35,13 @@ function Cart() {
       {cartItems.length > 0 && (
         <ul id="cart-items">
           {cartItems.map((item) => {
+            const formattedPrice = `$${(item.price * item.quantity).toFixed(2)}`;
 
             return (
               <li key={item.id} className="cart-item">
                 <div>
                   <span>{item.name}</span>
-                  <span> ({totalPrice})</span>
+                  <span> ({formattedPrice})</span>
                 </div>
                 <div className="cart-item-actions">
                   <button onClick={() => updateQuantity(item.id, -1)}>-</button>
