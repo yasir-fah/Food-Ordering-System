@@ -8,7 +8,7 @@ import {
 } from "../validationMethod";
 
 // to deal with form in this component: using 'useActionState' hook
-function Form({ total }) {
+function Form({ total, onClose }) {
   const { items, clearCart } = use(Context);
 
   async function submitAction(preState, formData) {
@@ -103,7 +103,7 @@ function Form({ total }) {
   return (
     // TODO: enhance the style of the form 
     <form action={formAction}>
-      <p>total amount is {!formState.error? total : 0}$</p>
+      <p>total amount is {total}$</p>
       <div className="control">
         <p className="control-row">
           <label htmlFor="userName">Full Name</label>
@@ -151,7 +151,7 @@ function Form({ total }) {
         </p>
 
         <p className="control-row">
-          <button type="reset" className="text-button">
+          <button type="button" className="text-button" onClick={onClose}>
             Close
           </button>
           <button type="submit" className="button">

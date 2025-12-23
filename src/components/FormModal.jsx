@@ -12,9 +12,6 @@ const FormModal = forwardRef(function FormModal({title, total}, ref) {
       open: () =>{
       dialog.current.showModal();
     },
-    close: () =>{
-      dialog.current.close();
-    }
     }
 
 
@@ -22,7 +19,7 @@ const FormModal = forwardRef(function FormModal({title, total}, ref) {
   return createPortal(
     <dialog className="modal" ref={dialog}>
       <h2>{title}</h2>
-      <Form total={total}/>
+      <Form total={total} onClose={() => dialog.current.close()} />
     </dialog>,
     document.getElementById("modal")
   );
