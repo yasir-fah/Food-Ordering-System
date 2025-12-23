@@ -10,23 +10,13 @@ function Header() {
 
   const itemsQuantity = items.length;
 
-  let modalActions = <button className="text-button">Close</button>;
-  if (itemsQuantity > 0) {
-    modalActions = (
-      <>
-        <button className="text-button">Close</button>
-        <button className="button">Checkout</button>
-      </>
-    );
-  }
-
   function handleOpenCartClick() {
     modal.current.open();
   }
 
   return (
     <header id="main-header">
-      <CartModal ref={modal} title="Your Cart" actions={modalActions} />
+      <CartModal ref={modal} title="Your Cart" />
       <div id="title">
         <img src={logo} alt="A restaurant logo" />
         <h1>ReactFood</h1>
