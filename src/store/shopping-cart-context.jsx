@@ -5,6 +5,7 @@ export const Context = createContext({
   items: [],
   addItemToCart: () => {},
   updateQuantity: () => {},
+  clearCart: () => {} 
 });
 
 
@@ -45,6 +46,15 @@ function shoppingCartReducer(state, action) {
     return { ...state, items: updatedItems };
   }
 
+  
+  // 1. Add this case to clear the items array
+  if (action.type === 'CLEAR_CART') {
+    return {
+      ...state,
+      items: [],
+    };
+  }
+
   return state;
 }
 
@@ -75,11 +85,20 @@ export function ContextProvider({ children }) {
     });
   }
 
+  // clear cart after submit the order:
+  function handleClearCartItems() {
+    shoppingCartDispatch({
+      type: "CLEAR_CART"
+    })
+  }
+
+
   // set global Context value Object: exposing state & functions:  
   const ctxValue = {
     items: shoppingCartState.items,
     addItemToCart: handleAddItemToCart,
     updateQuantity: handleUpdateCartItemQuantity,
+    clearCart: handleClearCartItems
   };
 
   return <Context.Provider value={ctxValue}>{children}</Context.Provider>;
