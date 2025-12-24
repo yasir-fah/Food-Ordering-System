@@ -61,16 +61,15 @@ function Cart() {
           })}
         </ul> 
       )}
-      <p id="cart-total-price">
-        Cart Total: <strong>{totalPrice}</strong>
+      <p className="cart-total">
+        Cart Total: <span>{totalPrice}$</span>
       </p>
-      <form method="dialog" id="modal-actions">
-        {/* TODO: make modal hidden  */}
+      <p method="dialog" id="modal-actions">
         <button className="text-button">Close</button>
         {cartItems.length > 0 && (
           <button className="button" type="button" onClick={handleOpenCheckout}>Checkout</button>
         )}
-      </form>
+      </p>
     </div>
   );
 }
