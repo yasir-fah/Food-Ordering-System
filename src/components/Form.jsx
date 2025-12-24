@@ -104,8 +104,8 @@ function Form({ total, onClose }) {
     // TODO: enhance the style of the form 
     <form action={formAction}>
       <p>total amount is {total}$</p>
-      <div className="control">
-        <p className="control-row">
+      <div className="">
+        <p className="control">
           <label htmlFor="userName">Full Name</label>
           <input
             type="text"
@@ -114,7 +114,7 @@ function Form({ total, onClose }) {
             defaultValue={formState.enteredValues?.userName}
           />
         </p>
-        <p className="control-row">
+        <p className="control">
           <label htmlFor="email">E-Mail Address</label>
           <input
             type="email"
@@ -123,7 +123,7 @@ function Form({ total, onClose }) {
             defaultValue={formState.enteredValues?.email}
           />
         </p>
-        <p className="control-row">
+        <p className="control">
           <label htmlFor="street">Street</label>
           <input
             type="text"
@@ -132,7 +132,7 @@ function Form({ total, onClose }) {
             defaultValue={formState.enteredValues?.street}
           />
         </p>
-        <p className="control-row">
+        <p className="control">
           <label htmlFor="postalCode">Postal Code</label>
           <input
             type="text"

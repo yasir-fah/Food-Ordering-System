@@ -26,7 +26,7 @@ function Product() {
             <p className="meal-item-price">{product.price}</p>
             <p className="meal-item-description">{product.description}</p>
             <p className="meal-item-actions">
-              <button className="button" onClick={() => addItemToCart(product.id)}>
+                <button className="button" onClick={() => addItemToCart(product.id)}>
                 Add to Cart
               </button>
             </p>
